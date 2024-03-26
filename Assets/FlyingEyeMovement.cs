@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class FlyingEyeMovement : MonoBehaviour
 {
-    public Vector2 velocity;
+    public Vector2 startVelocity;
     public Rigidbody2D rb;
-    private enum Direction
+    public enum Direction
     {
         Left,
         Right,
     }
-    private Direction direction;
+    public Direction direction;
     // Start is called before the first frame update
     void Start()
     {
         direction = Direction.Right;
+        rb.velocity = startVelocity;
     }
 
     // Update is called once per frame
@@ -31,26 +32,35 @@ public class FlyingEyeMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
-        //Determines which way it's facing and flips it accordingly
-        if (rb.velocity.x < 0 && direction != Direction.Left)
-        {
-            Flip();
-            direction = Direction.Left;
-        }
-        else if (rb.velocity.x > 0 && direction != Direction.Right)
-        {
-            Flip();
-            direction = Direction.Right;
-        }
-
-
-        rb.velocity = velocity;
+        CheckForWrongDirection();
+        Debug.Log(rb.velocity.x);
     }
-    private void Flip()
+    public void Flip()
     {
         //Flips the sprite
         Vector2 currentScale = gameObject.transform.localScale;
         currentScale.x *= -1;
         gameObject.transform.localScale = currentScale;
+
+        rb.velocity = new Vector2(rb.velocity.x * -1, rb.velocity.y);
+        if (direction == Direction.Left)
+        {
+            direction = Direction.Right;
+        }else
+        {
+            direction = Direction.Left;
+        }
+    }
+    void CheckForWrongDirection()
+    {
+        //Determines which way it's facing and flips it accordingly
+        if (rb.velocity.x < 0 && direction != Direction.Left)
+        {
+            Flip();
+        }
+        else if (rb.velocity.x > 0 && direction != Direction.Right)
+        {
+            Flip();
+        }
     }
 }

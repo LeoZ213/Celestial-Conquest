@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor.Tilemaps;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class FlyingEyeAI : MonoBehaviour
 {
@@ -15,6 +17,8 @@ public class FlyingEyeAI : MonoBehaviour
     private State state;
     private bool isPlayerNear = false;
     public Animator myAnim;
+    public Collider2D[] collider2Ds;
+    public FlyingEyeMovement moveScript;
     // Start is called before the first frame update
     void Start()
     {
@@ -51,7 +55,24 @@ public class FlyingEyeAI : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            isPlayerNear = true;
+            if (collider2Ds[0].IsTouching(collision)) //Determines if the inner CircleCollider touches the player
+            {
+                isPlayerNear = true;
+            }
+            if (collider2Ds[1].IsTouching(collision)) //Determines if the outer BoxCollider touches the player
+            {
+                //Determines how far the collision is from FlyingEye itself
+                Vector2 distance = collision.transform.position - transform.position;
+                
+
+                if ((distance.x > 0) && (moveScript.direction == FlyingEyeMovement.Direction.Left))
+                {
+                    moveScript.Flip();
+                }else if ((distance.x < 0) && (moveScript.direction == FlyingEyeMovement.Direction.Right))
+                {
+                    moveScript.Flip();
+                }
+            }
         }
     }
     private void OnAttackAnimationFinished()
