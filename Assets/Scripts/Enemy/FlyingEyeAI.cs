@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class FlyingEyeAI : MonoBehaviour
 {
-    public Vector2 velocity;
-
-    public Rigidbody2D rb;
     private enum State
     {
         Idle,
@@ -15,20 +12,14 @@ public class FlyingEyeAI : MonoBehaviour
         Damaged,
         Death,
     }
-
-    private enum Direction
-    {
-        Left,
-        Right,
-    }
-
     private State state;
-    private Direction direction;  
+    private bool isPlayerNear = false;
+    public Animator myAnim;
     // Start is called before the first frame update
     void Start()
     {
+        myAnim = GetComponent<Animator>();
         state = State.Idle;
-        direction = Direction.Right;
     }
 
     // Update is called once per frame
@@ -37,54 +28,36 @@ public class FlyingEyeAI : MonoBehaviour
         switch (state)
         {
             case State.Idle:
-                if (IsPlayerNear())
+                if (isPlayerNear)
                 {
+                    Debug.Log("Successfully switched to attack state");
                     state = State.Attack;
                 }
                 break;
             case State.Attack:
+                myAnim.Play("FlyingEyeAttack");
                 break;
             case State.Damaged:
                 break;
             case State.Death:
                 break;
-        }
-
-        switch (direction)
-        {
-            case Direction.Left:
-                break;
-            case Direction.Right:
-                break;
-        }
+        }   
     }
 
     void FixedUpdate()
     {
-        //Determines which way it's facing and flips it accordingly
-        if (rb.velocity.x < 0 && direction != Direction.Left)
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
         {
-            Flip();
-            direction = Direction.Left;
-        }else if (rb.velocity.x > 0 && direction != Direction.Right)
-        {
-            Flip();
-            direction = Direction.Right;
+            isPlayerNear = true;
         }
-
-
-        rb.velocity = velocity;
     }
-    private bool IsPlayerNear()
+    private void OnAttackAnimationFinished()
     {
-        //TODO
-        return true;
-    }
-    private void Flip()
-    {
-        //Flips the sprite
-        Vector2 currentScale = gameObject.transform.localScale;
-        currentScale.x *= -1;
-        gameObject.transform.localScale = currentScale;
+        state = State.Idle;
+        isPlayerNear = false;
+        myAnim.Play("FlyingEyeIdle");
     }
 }
