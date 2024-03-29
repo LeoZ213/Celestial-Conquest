@@ -33,7 +33,6 @@ public class FlyingEyeMovement : MonoBehaviour
     void FixedUpdate()
     {
         CheckForWrongDirection();
-        Debug.Log(rb.velocity.x);
     }
     public void Flip()
     {
@@ -50,6 +49,7 @@ public class FlyingEyeMovement : MonoBehaviour
         {
             direction = Direction.Left;
         }
+       
     }
     void CheckForWrongDirection()
     {
@@ -63,4 +63,14 @@ public class FlyingEyeMovement : MonoBehaviour
             Flip();
         }
     }
+    public Vector2 GetVelocity()
+    {
+        return rb.velocity;
+    }
+    public void SetVelocity(float x, float y)
+    {
+        rb.velocity = new Vector2(x, y);
+    }
+
+
 }

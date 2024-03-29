@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor.Experimental.GraphView;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
@@ -61,17 +62,12 @@ public class FlyingEyeAI : MonoBehaviour
             }
             if (collider2Ds[1].IsTouching(collision)) //Determines if the outer BoxCollider touches the player
             {
-                //Determines how far the collision is from FlyingEye itself
-                Vector2 distance = collision.transform.position - transform.position;
-                
+                // Determines how far the collision is from FlyingEye itself
+                Vector2 direction = (collision.transform.position - transform.position).normalized;
+                float speed = moveScript.rb.velocity.magnitude; // Assuming you want to maintain the same speed
 
-                if ((distance.x > 0) && (moveScript.direction == FlyingEyeMovement.Direction.Left))
-                {
-                    moveScript.Flip();
-                }else if ((distance.x < 0) && (moveScript.direction == FlyingEyeMovement.Direction.Right))
-                {
-                    moveScript.Flip();
-                }
+                // Set the new velocity based on the direction towards the player
+                moveScript.SetVelocity(direction.x * speed, direction.y * speed);
             }
         }
     }
