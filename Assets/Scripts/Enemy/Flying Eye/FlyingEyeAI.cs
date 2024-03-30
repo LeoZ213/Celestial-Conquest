@@ -19,7 +19,6 @@ public class FlyingEyeAI : MonoBehaviour
     private bool isPlayerNear = false;
     public Animator myAnim;
     public Collider2D[] collider2Ds;
-    public FlyingEyeMovement moveScript;
     // Start is called before the first frame update
     void Start()
     {
@@ -59,15 +58,6 @@ public class FlyingEyeAI : MonoBehaviour
             if (collider2Ds[0].IsTouching(collision)) //Determines if the inner CircleCollider touches the player
             {
                 isPlayerNear = true;
-            }
-            if (collider2Ds[1].IsTouching(collision)) //Determines if the outer BoxCollider touches the player
-            {
-                // Determines how far the collision is from FlyingEye itself
-                Vector2 direction = (collision.transform.position - transform.position).normalized;
-                float speed = moveScript.rb.velocity.magnitude; // Assuming you want to maintain the same speed
-
-                // Set the new velocity based on the direction towards the player
-                moveScript.SetVelocity(direction.x * speed, direction.y * speed);
             }
         }
     }

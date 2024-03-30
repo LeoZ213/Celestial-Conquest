@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlyingEyeMovement : MonoBehaviour
+public class FlyingEyeMovementDeprecated : MonoBehaviour
 {
     public Vector2 startVelocity;
     public Rigidbody2D rb;
