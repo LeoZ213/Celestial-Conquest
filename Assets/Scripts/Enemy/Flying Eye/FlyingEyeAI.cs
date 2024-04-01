@@ -8,6 +8,12 @@ using static UnityEngine.GraphicsBuffer;
 
 public class FlyingEyeAI : MonoBehaviour
 {
+    public FlyingEyeHealth eyeHealth;
+    public Animator myAnim;
+    public Collider2D[] collider2Ds;
+
+    private bool isPlayerNear = false;
+
     private enum State
     {
         Idle,
@@ -16,9 +22,7 @@ public class FlyingEyeAI : MonoBehaviour
         Death,
     }
     private State state;
-    private bool isPlayerNear = false;
-    public Animator myAnim;
-    public Collider2D[] collider2Ds;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,7 +49,7 @@ public class FlyingEyeAI : MonoBehaviour
                 break;
             case State.Death:
                 break;
-        }   
+        }
     }
 
     void FixedUpdate()
@@ -67,4 +71,12 @@ public class FlyingEyeAI : MonoBehaviour
         isPlayerNear = false;
         myAnim.Play("FlyingEyeIdle");
     }
+
+     private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            eyeHealth.Damage(WeaponTypes.WeaponType.Assault_Rifle);
+        }
+    } 
 }

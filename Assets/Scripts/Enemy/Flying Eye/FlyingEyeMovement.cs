@@ -65,7 +65,6 @@ public class FlyingEyeMovement : MonoBehaviour
     }
     private void PursueTarget()
     {
-        Debug.Log(displacement.magnitude);
         if (displacement.magnitude > 100)
         {
             agent.SetDestination(this.transform.position);
