@@ -4,5 +4,7 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    void Damage(WeaponTypes.WeaponType weaponType);
+    void Damage(GunTypes.GunType gunType);
+
+    void Damage(SwordTypes.SwordType swordType);
 }

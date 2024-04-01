@@ -51,10 +51,6 @@ public class FlyingEyeAI : MonoBehaviour
                 break;
         }
     }
-
-    void FixedUpdate()
-    {
-    }
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
@@ -76,7 +72,7 @@ public class FlyingEyeAI : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            eyeHealth.Damage(WeaponTypes.WeaponType.Assault_Rifle);
+            eyeHealth.Damage(GunTypes.GunType.Pistol);
         }
     } 
 }

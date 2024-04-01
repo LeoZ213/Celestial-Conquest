@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class FlyingEyeHealth : MonoBehaviour, IDamageable
 {
@@ -18,11 +19,7 @@ public class FlyingEyeHealth : MonoBehaviour, IDamageable
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-    public void Damage(WeaponTypes.WeaponType weaponType)
+    public void Damage(GunTypes.GunType gunType)
     {
 
         //Damages the enemy
@@ -35,6 +32,11 @@ public class FlyingEyeHealth : MonoBehaviour, IDamageable
         {
             animator.Play("FlyingEyeDeath");
         }
+    }
+
+    public void Damage(SwordTypes.SwordType swordType)
+    {
+        //Implement sword attack
     }
     private void OnDeathAnimationFinished()
     {
